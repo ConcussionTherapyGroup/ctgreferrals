@@ -71,7 +71,6 @@
   </footer>
 </div>
 
-<!-- FORM MODAL -->
 <div class="modal-overlay" id="formModal">
   <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="referralModalTitle">
     <button type="button" class="modal-close" id="closeModalBtn" aria-label="Close form">×</button>
@@ -97,8 +96,8 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_next" value="https://concussiontherapygroup.github.io/ctgreferrals/thank-you.html">
+          <input type="hidden" name="Submission ID" id="submission_id">
 
-          <!-- STEP 1 -->
           <div class="form-step active" id="step1">
             <label for="law_firm_provider_name">Law Firm / Provider Name</label>
             <input id="law_firm_provider_name" name="Law Firm / Provider Name" type="text" placeholder="Enter firm or provider name" required>
@@ -151,7 +150,6 @@
             </div>
           </div>
 
-          <!-- STEP 2 -->
           <div class="form-step" id="step2">
             <p class="section-note">Please answer each symptom question below.</p>
 
@@ -359,9 +357,27 @@
             </div>
           </div>
 
-          <!-- STEP 3 -->
           <div class="form-step" id="step3">
             <p class="section-note">You may optionally upload supporting photos below. The total size of uploaded photos must not exceed 9 MB.</p>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">?</div>
+                  <div class="symptom-title">Did you attach photos?</div>
+                </div>
+
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Please let us know whether you are submitting any photo attachments.</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="attached_photos_yes" name="Attached Photos?" value="Yes" required>
+                    <label for="attached_photos_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="attached_photos_no" name="Attached Photos?" value="No" required>
+                    <label for="attached_photos_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <label for="government_id">Government ID Photo (Optional)</label>
             <input id="government_id" name="Government ID Photo" type="file" accept="image/*">
@@ -384,12 +400,16 @@
             </div>
           </div>
         </form>
+
+        <div id="submissionStatus" class="submission-status" style="display:none;"></div>
       </div>
     </section>
   </div>
 </div>
 
 <script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxZIA-p1ildH3FBEvtzJyLDnFqOlr9NNIztrc6M_oCJWsXb8C4vhr-uYoxcEpNRutbYdA/exec";
+
 const hero = document.querySelector('.hero');
 const canvas = document.createElement('canvas');
 canvas.id = 'network';
@@ -452,7 +472,6 @@ window.addEventListener('resize', () => {
   size();
   init();
 });
-
 size();
 init();
 draw();
@@ -475,45 +494,36 @@ function closeModal() {
   document.body.classList.remove('modal-open');
 }
 
-openFormButtons.forEach(btn => {
-  btn.addEventListener('click', openModal);
-});
-
+openFormButtons.forEach(btn => btn.addEventListener('click', openModal));
 closeModalBtn.addEventListener('click', closeModal);
 cancelModalBtn1.addEventListener('click', closeModal);
 
 formModal.addEventListener('click', function(e) {
-  if (e.target === formModal) {
-    closeModal();
-  }
+  if (e.target === formModal) closeModal();
 });
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape' && formModal.classList.contains('active')) {
-    closeModal();
-  }
+  if (e.key === 'Escape' && formModal.classList.contains('active')) closeModal();
 });
 
 const step1 = document.getElementById('step1');
 const step2 = document.getElementById('step2');
 const step3 = document.getElementById('step3');
-
 const stepPill1 = document.getElementById('stepPill1');
 const stepPill2 = document.getElementById('stepPill2');
 const stepPill3 = document.getElementById('stepPill3');
-
 const nextBtn1 = document.getElementById('nextBtn1');
 const nextBtn2 = document.getElementById('nextBtn2');
 const backBtn2 = document.getElementById('backBtn2');
 const backBtn3 = document.getElementById('backBtn3');
-
 const referralForm = document.getElementById('referralForm');
+const submissionIdInput = document.getElementById('submission_id');
+const submissionStatus = document.getElementById('submissionStatus');
 
 function setActiveStep(stepNumber) {
   step1.classList.remove('active');
   step2.classList.remove('active');
   step3.classList.remove('active');
-
   stepPill1.classList.remove('active');
   stepPill2.classList.remove('active');
   stepPill3.classList.remove('active');
@@ -524,7 +534,7 @@ function setActiveStep(stepNumber) {
   } else if (stepNumber === 2) {
     step2.classList.add('active');
     stepPill2.classList.add('active');
-  } else if (stepNumber === 3) {
+  } else {
     step3.classList.add('active');
     stepPill3.classList.add('active');
   }
@@ -542,15 +552,11 @@ function validateStep(container) {
 }
 
 nextBtn1.addEventListener('click', function () {
-  if (validateStep(step1)) {
-    setActiveStep(2);
-  }
+  if (validateStep(step1)) setActiveStep(2);
 });
 
 nextBtn2.addEventListener('click', function () {
-  if (validateStep(step2)) {
-    setActiveStep(3);
-  }
+  if (validateStep(step2)) setActiveStep(3);
 });
 
 backBtn2.addEventListener('click', function () {
@@ -561,9 +567,56 @@ backBtn3.addEventListener('click', function () {
   setActiveStep(2);
 });
 
-referralForm.addEventListener('submit', function (e) {
+function generateSubmissionId() {
+  return "CTG-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
+}
+
+function getRadioValue(name) {
+  const checked = document.querySelector(`input[name="${CSS.escape(name)}"]:checked`);
+  return checked ? checked.value : "";
+}
+
+function buildSheetPayload() {
   const govId = document.getElementById('government_id');
   const autoCard = document.getElementById('auto_insurance_card');
+
+  return {
+    submissionId: submissionIdInput.value,
+    lawFirmProviderName: document.getElementById('law_firm_provider_name').value,
+    caseManagerParalegal: document.getElementById('case_manager_paralegal').value,
+    patientFullName: document.getElementById('patient_full_name').value,
+    patientFullAddress: document.getElementById('patient_full_address').value,
+    dateOfBirth: document.getElementById('date_of_birth').value,
+    dateOfIncident: document.getElementById('date_of_incident').value,
+    phoneNumber: document.getElementById('phone_number').value,
+    workersCompCase: document.getElementById('workers_comp_case').value,
+    pipDetails: document.getElementById('pip_details').value,
+    vcMeaning: getRadioValue('Verbal Communication - Takes longer to understand meaning'),
+    vcWords: getRadioValue('Verbal Communication - Takes longer to find words'),
+    vcSay: getRadioValue('Verbal Communication - Takes longer to say words'),
+    lightSensitivity: getRadioValue('Light Sensitivity'),
+    sleepLess: getRadioValue('Sleep Difficulty - Sleeping less than usual'),
+    sleepFall: getRadioValue('Sleep Difficulty - Difficulty falling asleep'),
+    fearOfTravel: getRadioValue('Fear of Travel'),
+    headaches: getRadioValue('Headaches'),
+    wooziness: getRadioValue('Wooziness'),
+    lightheadedness: getRadioValue('Lightheadedness'),
+    emotional: getRadioValue('Emotional'),
+    nervousness: getRadioValue('Nervousness'),
+    attachedPhotos: getRadioValue('Attached Photos?'),
+    governmentIdUploaded: govId.files.length > 0 ? "Yes" : "No",
+    autoInsuranceUploaded: autoCard.files.length > 0 ? "Yes" : "No"
+  };
+}
+
+referralForm.addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  if (!validateStep(step3)) return;
+
+  const govId = document.getElementById('government_id');
+  const autoCard = document.getElementById('auto_insurance_card');
+  const attachedPhotosAnswer = getRadioValue('Attached Photos?');
 
   const govSize = govId.files[0] ? govId.files[0].size : 0;
   const autoSize = autoCard.files[0] ? autoCard.files[0].size : 0;
@@ -571,9 +624,52 @@ referralForm.addEventListener('submit', function (e) {
   const maxSize = 9 * 1024 * 1024;
 
   if (totalSize > maxSize) {
-    e.preventDefault();
     alert('The total size of the uploaded photos must not exceed 9 MB.');
     return;
+  }
+
+  if (attachedPhotosAnswer === "Yes" && govId.files.length === 0 && autoCard.files.length === 0) {
+    alert('You selected "Yes" for attached photos, but no files were uploaded.');
+    return;
+  }
+
+  if (attachedPhotosAnswer === "No" && (govId.files.length > 0 || autoCard.files.length > 0)) {
+    alert('You selected "No" for attached photos, but files were uploaded. Please update your answer or remove the files.');
+    return;
+  }
+
+  if (!submissionIdInput.value) {
+    submissionIdInput.value = generateSubmissionId();
+  }
+
+  submissionStatus.style.display = 'block';
+  submissionStatus.textContent = 'Submitting your referral...';
+  submissionStatus.className = 'submission-status is-loading';
+
+  try {
+    const payload = buildSheetPayload();
+
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      throw new Error(result.error || 'Google Sheets submission failed.');
+    }
+
+    submissionStatus.textContent = 'Text answers saved. Sending attachments...';
+    referralForm.submit();
+
+  } catch (error) {
+    console.error(error);
+    submissionStatus.textContent = 'There was a problem saving the form to Google Sheets. Please try again.';
+    submissionStatus.className = 'submission-status is-error';
   }
 });
 </script>
