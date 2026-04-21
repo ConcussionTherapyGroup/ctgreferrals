@@ -575,6 +575,26 @@ button:hover,
   font-size:14px;
 }
 
+.submission-status{
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.submission-status.is-loading{
+  background:#eef6ff;
+  color:#103d88;
+  border:1px solid #cfe0fb;
+}
+
+.submission-status.is-error{
+  background:#fff1f1;
+  color:#a12626;
+  border:1px solid #f0c6c6;
+}
+
 .thankyou-section{
   min-height:calc(100vh - 120px);
   display:flex;
