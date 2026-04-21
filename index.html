@@ -8,374 +8,386 @@
 </head>
 <body>
 
-<header>
-  <div class="logo-wrap">
-    <span class="logo-main">CTG</span>
-    <span class="logo-divider">|</span>
-    <div class="logo-text-wrap">
-      <div class="logo-line-accent">The Concussion</div>
-      <div class="logo-line">Therapy Group</div>
-    </div>
-  </div>
-  <a href="#form" class="btn">Submit Referral</a>
-</header>
-
-<section class="hero">
-  <div class="hero-content">
-    <h1>Concussion Care Referrals Made<br>Simple.</h1>
-    <p>The premier secure referral portal for Law Firms and Providers</p>
-    <div class="hero-buttons">
-      <a href="#form" class="primary">Submit Referrals</a>
-      <a href="#form" class="secondary">Contact Us</a>
-    </div>
-  </div>
-  <div class="brain"></div>
-</section>
-
-<section class="section">
-  <h2>Why Refer To Us?</h2>
-  <div class="cards">
-    <div class="card">
-      <span class="icon">🧠</span>
-      <h3>Advanced Diagnostics</h3>
-      <p>State-of-the-art concussion evaluation and recovery planning.</p>
-    </div>
-    <div class="card">
-      <span class="icon">⚡</span>
-      <h3>24-Hour Intake</h3>
-      <p>Referrals are reviewed promptly so treatment can begin without delay.</p>
-    </div>
-    <div class="card">
-      <span class="icon">🛡️</span>
-      <h3>Secure Intake</h3>
-      <p>Protected referral handling with professional standards.</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider-line"></div>
-
-<section class="section" id="form">
-  <div class="form">
-    <h2 class="main-form-title">Submit a Patient Referral</h2>
-    <p class="section-note">Please complete all 3 parts of the form before submitting.</p>
-
-    <div class="step-indicator">
-      <div class="step-pill active" id="stepPill1">Part 1 · Referral Details</div>
-      <div class="step-pill" id="stepPill2">Part 2 · Symptom Questionnaire</div>
-      <div class="step-pill" id="stepPill3">Part 3 · Required Uploads</div>
-    </div>
-
-    <form
-      id="referralForm"
-      action="https://formsubmit.co/admin@ligonrazon.solutions"
-      method="POST"
-      enctype="multipart/form-data"
-    >
-      <input type="hidden" name="_subject" value="New CTG Referral Submission">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-
-      <!-- STEP 1 -->
-      <div class="form-step active" id="step1">
-        <label for="law_firm_provider_name">Law Firm / Provider Name</label>
-        <input id="law_firm_provider_name" name="Law Firm / Provider Name" type="text" placeholder="Enter firm or provider name" required>
-
-        <label for="case_manager_paralegal">Case Manager / Paralegal</label>
-        <input id="case_manager_paralegal" name="Case Manager / Paralegal" type="text" placeholder="Primary contact name" required>
-
-        <label for="patient_full_name">Patient's Full Name</label>
-        <input id="patient_full_name" name="Patient Full Name" type="text" placeholder="Full legal name" required>
-
-        <label for="patient_full_address">Patient's Full Address</label>
-        <input id="patient_full_address" name="Patient Full Address" type="text" placeholder="Street, City, State, ZIP" required>
-
-        <div class="grid2">
-          <div>
-            <label for="date_of_birth">Date of Birth</label>
-            <input id="date_of_birth" name="Date of Birth" type="date" required>
-          </div>
-          <div>
-            <label for="date_of_incident">Date of Incident</label>
-            <input id="date_of_incident" name="Date of Incident" type="date" required>
-          </div>
-        </div>
-
-        <div class="grid2">
-          <div>
-            <label for="phone_number">Phone Number</label>
-            <input id="phone_number" name="Phone Number" type="tel" placeholder="(000) 000-0000" required>
-          </div>
-          <div>
-            <label for="workers_comp_case">Workers Comp Case?</label>
-            <select id="workers_comp_case" name="Workers Comp Case" required>
-              <option value="">Select option</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-          </div>
-        </div>
-
-        <label for="pip_details">PIP Details (if applicable)</label>
-        <textarea id="pip_details" name="PIP Details" rows="4" placeholder="Additional insurance or case details..."></textarea>
-
-        <div class="form-actions">
-          <div class="left-actions"></div>
-          <div class="right-actions">
-            <button type="button" id="nextBtn1" class="submit-btn">Continue to Part 2</button>
-          </div>
-        </div>
+<div class="page-shell" id="pageShell">
+  <header>
+    <div class="logo-wrap">
+      <span class="logo-main">CTG</span>
+      <span class="logo-divider">|</span>
+      <div class="logo-text-wrap">
+        <div class="logo-line-accent">The Concussion</div>
+        <div class="logo-line">Therapy Group</div>
       </div>
-
-      <!-- STEP 2 -->
-      <div class="form-step" id="step2">
-        <p class="section-note">Please answer each symptom question below.</p>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">1</div>
-              <div class="symptom-title">Verbal Communication</div>
-            </div>
-
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Is it taking longer to understand the meaning of what somebody is saying to you?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="vc_meaning_yes" name="Verbal Communication - Takes longer to understand meaning" value="Yes" required>
-                <label for="vc_meaning_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="vc_meaning_no" name="Verbal Communication - Takes longer to understand meaning" value="No" required>
-                <label for="vc_meaning_no" class="yn-btn">No</label>
-              </div>
-            </div>
-
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Is it taking you longer to find the words to say what you want to say?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="vc_words_yes" name="Verbal Communication - Takes longer to find words" value="Yes" required>
-                <label for="vc_words_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="vc_words_no" name="Verbal Communication - Takes longer to find words" value="No" required>
-                <label for="vc_words_no" class="yn-btn">No</label>
-              </div>
-            </div>
-
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Is it taking you longer to say the words once you know what you want to say?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="vc_say_yes" name="Verbal Communication - Takes longer to say words" value="Yes" required>
-                <label for="vc_say_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="vc_say_no" name="Verbal Communication - Takes longer to say words" value="No" required>
-                <label for="vc_say_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">2</div>
-              <div class="symptom-title">Light Sensitivity</div>
-            </div>
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Are you more sensitive to light than before the accident?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="light_sens_yes" name="Light Sensitivity" value="Yes" required>
-                <label for="light_sens_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="light_sens_no" name="Light Sensitivity" value="No" required>
-                <label for="light_sens_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">3</div>
-              <div class="symptom-title">Sleep Difficulty</div>
-            </div>
-
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Are you sleeping less than usual?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="sleep_less_yes" name="Sleep Difficulty - Sleeping less than usual" value="Yes" required>
-                <label for="sleep_less_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="sleep_less_no" name="Sleep Difficulty - Sleeping less than usual" value="No" required>
-                <label for="sleep_less_no" class="yn-btn">No</label>
-              </div>
-            </div>
-
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Are you having difficulty falling asleep?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="sleep_fall_yes" name="Sleep Difficulty - Difficulty falling asleep" value="Yes" required>
-                <label for="sleep_fall_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="sleep_fall_no" name="Sleep Difficulty - Difficulty falling asleep" value="No" required>
-                <label for="sleep_fall_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">4</div>
-              <div class="symptom-title">Fear of Travel</div>
-            </div>
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Are you afraid to travel or drive in a car?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="travel_yes" name="Fear of Travel" value="Yes" required>
-                <label for="travel_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="travel_no" name="Fear of Travel" value="No" required>
-                <label for="travel_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">5</div>
-              <div class="symptom-title">Headaches</div>
-            </div>
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Are you having more headaches or more intense headaches since the accident?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="headaches_yes" name="Headaches" value="Yes" required>
-                <label for="headaches_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="headaches_no" name="Headaches" value="No" required>
-                <label for="headaches_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">6</div>
-              <div class="symptom-title">Wooziness</div>
-            </div>
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Do you feel any wooziness?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="woozy_yes" name="Wooziness" value="Yes" required>
-                <label for="woozy_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="woozy_no" name="Wooziness" value="No" required>
-                <label for="woozy_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">7</div>
-              <div class="symptom-title">Lightheadedness</div>
-            </div>
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Do you feel lightheadedness?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="lightheaded_yes" name="Lightheadedness" value="Yes" required>
-                <label for="lightheaded_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="lightheaded_no" name="Lightheadedness" value="No" required>
-                <label for="lightheaded_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">8</div>
-              <div class="symptom-title">Emotional</div>
-            </div>
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Do you feel more emotional since the accident?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="emotional_yes" name="Emotional" value="Yes" required>
-                <label for="emotional_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="emotional_no" name="Emotional" value="No" required>
-                <label for="emotional_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="symptom-block">
-          <div class="symptom-box">
-            <div class="symptom-heading">
-              <div class="symptom-number">9</div>
-              <div class="symptom-title">Nervousness</div>
-            </div>
-            <div class="symptom-question-row">
-              <div class="symptom-question-text">Do you feel more nervous since the accident?</div>
-              <div class="yes-no-group">
-                <input type="radio" id="nervous_yes" name="Nervousness" value="Yes" required>
-                <label for="nervous_yes" class="yn-btn">Yes</label>
-                <input type="radio" id="nervous_no" name="Nervousness" value="No" required>
-                <label for="nervous_no" class="yn-btn">No</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <div class="left-actions">
-            <button type="button" id="backBtn2" class="alt-btn">Back to Part 1</button>
-          </div>
-          <div class="right-actions">
-            <button type="button" id="nextBtn2" class="submit-btn">Continue to Part 3</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 3 -->
-      <div class="form-step" id="step3">
-        <p class="section-note">Please upload the required documents below. The total size of the submitted photos must not exceed 9 MB.</p>
-
-        <label for="government_id">Government ID Photo</label>
-        <input id="government_id" name="Government ID Photo" type="file" accept="image/*" required>
-
-        <label for="auto_insurance_card">Auto Insurance Card Photo</label>
-        <input id="auto_insurance_card" name="Auto Insurance Card Photo" type="file" accept="image/*" required>
-
-        <div class="upload-note-box">
-          <strong>Upload Reminder:</strong><br>
-          Please make sure the total size of the submitted photos does not exceed <strong>9 MB</strong>.
-        </div>
-
-        <div class="form-actions">
-          <div class="left-actions">
-            <button type="button" id="backBtn3" class="alt-btn">Back to Part 2</button>
-          </div>
-          <div class="right-actions">
-            <button type="submit" class="submit-btn">Submit Secure Referral</button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-grid">
-    <div>
-      <h3>CTG | The Concussion Therapy Group</h3>
-      <p>Professional concussion referral solutions with fast, secure, and patient-focused intake services.</p>
     </div>
-    <div class="footer-contact">
-      <div>📍 123 Wellness Ave, Suite 200, Los Angeles, CA 90001</div>
-      <div>📧 admin@ligonrazon.solutions</div>
-      <div>📞 (555) 123-4567</div>
+    <button type="button" class="btn open-form-btn">Submit Referral</button>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Concussion Care Referrals Made<br>Simple.</h1>
+      <p>The premier secure referral portal for Law Firms and Providers</p>
+      <div class="hero-buttons">
+        <button type="button" class="primary open-form-btn hero-btn-reset">Submit Referrals</button>
+        <button type="button" class="secondary open-form-btn hero-btn-reset">Contact Us</button>
+      </div>
     </div>
+    <div class="brain"></div>
+  </section>
+
+  <section class="section">
+    <h2>Why Refer To Us?</h2>
+    <div class="cards">
+      <div class="card">
+        <span class="icon">🧠</span>
+        <h3>Advanced Diagnostics</h3>
+        <p>State-of-the-art concussion evaluation and recovery planning.</p>
+      </div>
+      <div class="card">
+        <span class="icon">⚡</span>
+        <h3>24-Hour Intake</h3>
+        <p>Referrals are reviewed promptly so treatment can begin without delay.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🛡️</span>
+        <h3>Secure Intake</h3>
+        <p>Protected referral handling with professional standards.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-line"></div>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h3>CTG | The Concussion Therapy Group</h3>
+        <p>Professional concussion referral solutions with fast, secure, and patient-focused intake services.</p>
+      </div>
+      <div class="footer-contact">
+        <div>📍 123 Wellness Ave, Suite 200, Los Angeles, CA 90001</div>
+        <div>📧 admin@ligonrazon.solutions</div>
+        <div>📞 (555) 123-4567</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- FORM MODAL -->
+<div class="modal-overlay" id="formModal">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="referralModalTitle">
+    <button type="button" class="modal-close" id="closeModalBtn" aria-label="Close form">×</button>
+
+    <section class="modal-form-section">
+      <div class="form">
+        <h2 class="main-form-title" id="referralModalTitle">Submit a Patient Referral</h2>
+        <p class="section-note">Please complete all 3 parts of the form before submitting.</p>
+
+        <div class="step-indicator">
+          <div class="step-pill active" id="stepPill1">Part 1 · Referral Details</div>
+          <div class="step-pill" id="stepPill2">Part 2 · Symptom Questionnaire</div>
+          <div class="step-pill" id="stepPill3">Part 3 · Optional Uploads</div>
+        </div>
+
+        <form
+          id="referralForm"
+          action="https://formsubmit.co/admin@ligonrazon.solutions"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="_subject" value="New CTG Referral Submission">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://YOURDOMAIN.COM/thank-you.html">
+
+          <!-- STEP 1 -->
+          <div class="form-step active" id="step1">
+            <label for="law_firm_provider_name">Law Firm / Provider Name</label>
+            <input id="law_firm_provider_name" name="Law Firm / Provider Name" type="text" placeholder="Enter firm or provider name" required>
+
+            <label for="case_manager_paralegal">Case Manager / Paralegal</label>
+            <input id="case_manager_paralegal" name="Case Manager / Paralegal" type="text" placeholder="Primary contact name" required>
+
+            <label for="patient_full_name">Patient's Full Name</label>
+            <input id="patient_full_name" name="Patient Full Name" type="text" placeholder="Full legal name" required>
+
+            <label for="patient_full_address">Patient's Full Address</label>
+            <input id="patient_full_address" name="Patient Full Address" type="text" placeholder="Street, City, State, ZIP" required>
+
+            <div class="grid2">
+              <div>
+                <label for="date_of_birth">Date of Birth</label>
+                <input id="date_of_birth" name="Date of Birth" type="date" required>
+              </div>
+              <div>
+                <label for="date_of_incident">Date of Incident</label>
+                <input id="date_of_incident" name="Date of Incident" type="date" required>
+              </div>
+            </div>
+
+            <div class="grid2">
+              <div>
+                <label for="phone_number">Phone Number</label>
+                <input id="phone_number" name="Phone Number" type="tel" placeholder="(000) 000-0000" required>
+              </div>
+              <div>
+                <label for="workers_comp_case">Workers Comp Case?</label>
+                <select id="workers_comp_case" name="Workers Comp Case" required>
+                  <option value="">Select option</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+
+            <label for="pip_details">PIP Details (if applicable)</label>
+            <textarea id="pip_details" name="PIP Details" rows="4" placeholder="Additional insurance or case details..."></textarea>
+
+            <div class="form-actions">
+              <div class="left-actions">
+                <button type="button" class="alt-btn" id="cancelModalBtn1">Cancel</button>
+              </div>
+              <div class="right-actions">
+                <button type="button" id="nextBtn1" class="submit-btn">Continue to Part 2</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="form-step" id="step2">
+            <p class="section-note">Please answer each symptom question below.</p>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">1</div>
+                  <div class="symptom-title">Verbal Communication</div>
+                </div>
+
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Is it taking longer to understand the meaning of what somebody is saying to you?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="vc_meaning_yes" name="Verbal Communication - Takes longer to understand meaning" value="Yes" required>
+                    <label for="vc_meaning_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="vc_meaning_no" name="Verbal Communication - Takes longer to understand meaning" value="No" required>
+                    <label for="vc_meaning_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Is it taking you longer to find the words to say what you want to say?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="vc_words_yes" name="Verbal Communication - Takes longer to find words" value="Yes" required>
+                    <label for="vc_words_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="vc_words_no" name="Verbal Communication - Takes longer to find words" value="No" required>
+                    <label for="vc_words_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Is it taking you longer to say the words once you know what you want to say?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="vc_say_yes" name="Verbal Communication - Takes longer to say words" value="Yes" required>
+                    <label for="vc_say_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="vc_say_no" name="Verbal Communication - Takes longer to say words" value="No" required>
+                    <label for="vc_say_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">2</div>
+                  <div class="symptom-title">Light Sensitivity</div>
+                </div>
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Are you more sensitive to light than before the accident?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="light_sens_yes" name="Light Sensitivity" value="Yes" required>
+                    <label for="light_sens_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="light_sens_no" name="Light Sensitivity" value="No" required>
+                    <label for="light_sens_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">3</div>
+                  <div class="symptom-title">Sleep Difficulty</div>
+                </div>
+
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Are you sleeping less than usual?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="sleep_less_yes" name="Sleep Difficulty - Sleeping less than usual" value="Yes" required>
+                    <label for="sleep_less_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="sleep_less_no" name="Sleep Difficulty - Sleeping less than usual" value="No" required>
+                    <label for="sleep_less_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Are you having difficulty falling asleep?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="sleep_fall_yes" name="Sleep Difficulty - Difficulty falling asleep" value="Yes" required>
+                    <label for="sleep_fall_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="sleep_fall_no" name="Sleep Difficulty - Difficulty falling asleep" value="No" required>
+                    <label for="sleep_fall_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">4</div>
+                  <div class="symptom-title">Fear of Travel</div>
+                </div>
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Are you afraid to travel or drive in a car?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="travel_yes" name="Fear of Travel" value="Yes" required>
+                    <label for="travel_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="travel_no" name="Fear of Travel" value="No" required>
+                    <label for="travel_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">5</div>
+                  <div class="symptom-title">Headaches</div>
+                </div>
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Are you having more headaches or more intense headaches since the accident?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="headaches_yes" name="Headaches" value="Yes" required>
+                    <label for="headaches_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="headaches_no" name="Headaches" value="No" required>
+                    <label for="headaches_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">6</div>
+                  <div class="symptom-title">Wooziness</div>
+                </div>
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Do you feel any wooziness?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="woozy_yes" name="Wooziness" value="Yes" required>
+                    <label for="woozy_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="woozy_no" name="Wooziness" value="No" required>
+                    <label for="woozy_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">7</div>
+                  <div class="symptom-title">Lightheadedness</div>
+                </div>
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Do you feel lightheadedness?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="lightheaded_yes" name="Lightheadedness" value="Yes" required>
+                    <label for="lightheaded_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="lightheaded_no" name="Lightheadedness" value="No" required>
+                    <label for="lightheaded_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">8</div>
+                  <div class="symptom-title">Emotional</div>
+                </div>
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Do you feel more emotional since the accident?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="emotional_yes" name="Emotional" value="Yes" required>
+                    <label for="emotional_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="emotional_no" name="Emotional" value="No" required>
+                    <label for="emotional_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="symptom-block">
+              <div class="symptom-box">
+                <div class="symptom-heading">
+                  <div class="symptom-number">9</div>
+                  <div class="symptom-title">Nervousness</div>
+                </div>
+                <div class="symptom-question-row">
+                  <div class="symptom-question-text">Do you feel more nervous since the accident?</div>
+                  <div class="yes-no-group">
+                    <input type="radio" id="nervous_yes" name="Nervousness" value="Yes" required>
+                    <label for="nervous_yes" class="yn-btn">Yes</label>
+                    <input type="radio" id="nervous_no" name="Nervousness" value="No" required>
+                    <label for="nervous_no" class="yn-btn">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <div class="left-actions">
+                <button type="button" id="backBtn2" class="alt-btn">Back to Part 1</button>
+              </div>
+              <div class="right-actions">
+                <button type="button" id="nextBtn2" class="submit-btn">Continue to Part 3</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="form-step" id="step3">
+            <p class="section-note">You may optionally upload supporting photos below. The total size of uploaded photos must not exceed 9 MB.</p>
+
+            <label for="government_id">Government ID Photo (Optional)</label>
+            <input id="government_id" name="Government ID Photo" type="file" accept="image/*">
+
+            <label for="auto_insurance_card">Auto Insurance Card Photo (Optional)</label>
+            <input id="auto_insurance_card" name="Auto Insurance Card Photo" type="file" accept="image/*">
+
+            <div class="upload-note-box">
+              <strong>Upload Reminder:</strong><br>
+              These uploads are optional. If you choose to upload photos, the total size must not exceed <strong>9 MB</strong>.
+            </div>
+
+            <div class="form-actions">
+              <div class="left-actions">
+                <button type="button" id="backBtn3" class="alt-btn">Back to Part 2</button>
+              </div>
+              <div class="right-actions">
+                <button type="submit" class="submit-btn">Submit Secure Referral</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
   </div>
-</footer>
+</div>
 
 <script>
 const hero = document.querySelector('.hero');
@@ -445,84 +457,42 @@ size();
 init();
 draw();
 
-const formSec = document.getElementById('form');
-const fcanvas = document.createElement('canvas');
-fcanvas.id = 'form-network';
-formSec.prepend(fcanvas);
+const formModal = document.getElementById('formModal');
+const pageShell = document.getElementById('pageShell');
+const openFormButtons = document.querySelectorAll('.open-form-btn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const cancelModalBtn1 = document.getElementById('cancelModalBtn1');
 
-const fctx = fcanvas.getContext('2d');
-let fw, fh, fpts = [];
-
-function fsize() {
-  fw = fcanvas.width = formSec.offsetWidth;
-  fh = fcanvas.height = formSec.offsetHeight;
+function openModal() {
+  formModal.classList.add('active');
+  pageShell.classList.add('blurred');
+  document.body.classList.add('modal-open');
 }
 
-function finit() {
-  fpts = [];
-  for (let i = 0; i < 60; i++) {
-    fpts.push({
-      x: Math.random() * fw,
-      y: Math.random() * fh,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35
-    });
-  }
+function closeModal() {
+  formModal.classList.remove('active');
+  pageShell.classList.remove('blurred');
+  document.body.classList.remove('modal-open');
 }
 
-function fdraw() {
-  fctx.clearRect(0, 0, fw, fh);
-  for (let i = 0; i < fpts.length; i++) {
-    let p = fpts[i];
-    p.x += p.vx;
-    p.y += p.vy;
-    if (p.x < 0 || p.x > fw) p.vx *= -1;
-    if (p.y < 0 || p.y > fh) p.vy *= -1;
-
-    fctx.beginPath();
-    fctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
-    fctx.shadowBlur = 12;
-    fctx.shadowColor = 'rgba(88,196,255,.9)';
-    fctx.fillStyle = 'rgba(88,196,255,1)';
-    fctx.fill();
-
-    for (let j = i + 1; j < fpts.length; j++) {
-      let q = fpts[j];
-      let dx = p.x - q.x;
-      let dy = p.y - q.y;
-      let d = Math.sqrt(dx * dx + dy * dy);
-
-      if (d < 130) {
-        fctx.beginPath();
-        fctx.moveTo(p.x, p.y);
-        fctx.lineTo(q.x, q.y);
-
-        let alpha = (1 - d / 130) * 0.58;
-        let grad = fctx.createLinearGradient(p.x, p.y, q.x, q.y);
-        grad.addColorStop(0, 'rgba(16,183,216,' + alpha + ')');
-        grad.addColorStop(0.5, 'rgba(88,196,255,' + alpha + ')');
-        grad.addColorStop(1, 'rgba(29,125,242,' + alpha + ')');
-
-        fctx.strokeStyle = grad;
-        fctx.shadowBlur = 14;
-        fctx.shadowColor = 'rgba(88,196,255,.75)';
-        fctx.lineWidth = 1.4;
-        fctx.stroke();
-        fctx.shadowBlur = 0;
-      }
-    }
-  }
-  requestAnimationFrame(fdraw);
-}
-
-window.addEventListener('resize', () => {
-  fsize();
-  finit();
+openFormButtons.forEach(btn => {
+  btn.addEventListener('click', openModal);
 });
 
-fsize();
-finit();
-fdraw();
+closeModalBtn.addEventListener('click', closeModal);
+cancelModalBtn1.addEventListener('click', closeModal);
+
+formModal.addEventListener('click', function(e) {
+  if (e.target === formModal) {
+    closeModal();
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && formModal.classList.contains('active')) {
+    closeModal();
+  }
+});
 
 const step1 = document.getElementById('step1');
 const step2 = document.getElementById('step2');
@@ -558,8 +528,6 @@ function setActiveStep(stepNumber) {
     step3.classList.add('active');
     stepPill3.classList.add('active');
   }
-
-  document.getElementById('form').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function validateStep(container) {
@@ -606,10 +574,6 @@ referralForm.addEventListener('submit', function (e) {
     e.preventDefault();
     alert('The total size of the uploaded photos must not exceed 9 MB.');
     return;
-  }
-
-  if (!validateStep(step3)) {
-    e.preventDefault();
   }
 });
 </script>
