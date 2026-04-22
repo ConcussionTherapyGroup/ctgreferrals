@@ -1252,12 +1252,19 @@ select { cursor: pointer; }
 
   .logo-main { font-size: 28px; }
 
+  @media (max-width: 768px) {
   .hero {
-    min-height: 680px;
+    min-height: auto;
+    padding: 64px 24px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .hero-content {
-    padding: 64px 24px 24px;
+    padding: 0;
+    max-width: 100%;
+    width: 100%;
   }
 
   .hero-actions {
@@ -1273,10 +1280,26 @@ select { cursor: pointer; }
     width: 100%;
   }
 
-  .pulse-ring-group {
-    width: 300px;
-    height: 300px;
+  .hero-visual {
+    position: relative;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: 28px;
+    transform: translateX(-50%) scale(.88);
+    transform-origin: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 1;
   }
+
+  .pulse-ring-group {
+    width: 280px;
+    height: 280px;
+  }
+}
 
   .ring-core { inset: 78px; }
   .ring-icon { font-size: 64px; }
