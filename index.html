@@ -653,7 +653,7 @@ function getRadioValue(name) {
   return checked ? checked.value : "";
 }
 function buildSheetPayload() {
-  const govId    = document.getElementById('government_id');
+  const govId    = document.getElementById('drivers_license');
   const autoCard = document.getElementById('auto_insurance_card');
   return {
     submissionId:           submissionIdInput.value,
@@ -679,7 +679,7 @@ function buildSheetPayload() {
     emotional:              getRadioValue('Emotional'),
     nervousness:            getRadioValue('Nervousness'),
     attachedPhotos:         getRadioValue('Attached Photos?'),
-    governmentIdUploaded:   govId.files.length    > 0 ? "Yes" : "No",
+    governmentIdUploaded:   govId && govId.files.length > 0 ? "Yes" : "No",
     autoInsuranceUploaded:  autoCard.files.length > 0 ? "Yes" : "No"
   };
 }
@@ -688,7 +688,7 @@ referralForm.addEventListener('submit', async function(e) {
   e.preventDefault();
   if (!validateStep(step3)) return;
 
-  const govId    = document.getElementById('government_id');
+  const govId    = document.getElementById('drivers_license');
   const autoCard = document.getElementById('auto_insurance_card');
   const attachedPhotosAnswer = getRadioValue('Attached Photos?');
 
