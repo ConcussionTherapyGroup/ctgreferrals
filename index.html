@@ -136,11 +136,6 @@
         <span class="step-pill-num">2</span>
         <span>Symptom Questionnaire</span>
       </div>
-      <div class="step-sep"></div>
-      <div class="step-pill" id="stepPill3">
-        <span class="step-pill-num">3</span>
-        <span>Optional Uploads</span>
-      </div>
     </div>
 
     <!-- FORM -->
@@ -148,7 +143,6 @@
       id="referralForm"
       action="https://formsubmit.co/admin@ligonrazon.solutions"
       method="POST"
-      enctype="multipart/form-data"
     >
       <input type="hidden" name="_subject" value="New CTG Referral Submission">
       <input type="hidden" name="_captcha" value="false">
@@ -431,56 +425,6 @@
               </button>
             </div>
             <div class="right-actions">
-              <button type="button" id="nextBtn2" class="submit-btn">
-                Continue
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </button>
-            </div>
-          </div>
-
-        </div><!-- /step2 -->
-
-        <!-- ── STEP 3: Uploads ── -->
-        <div class="form-step" id="step3">
-
-          <div class="step2-note">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Optional uploads — max total size is <strong style="margin-left:4px;">9 MB</strong>.
-          </div>
-
-          <!-- Attached photos question -->
-          <div class="symptom-block">
-            <div class="symptom-box">
-              <div class="symptom-heading">
-                <div class="symptom-number">?</div>
-                <div class="symptom-title">Are you attaching photos?</div>
-              </div>
-              <div class="symptom-question-row">
-                <div class="symptom-question-text">Please let us know whether you are submitting any photo attachments with this referral.</div>
-                <div class="yes-no-group">
-                  <input type="radio" id="attached_photos_yes" name="Attached Photos?" value="Yes" required>
-                  <label for="attached_photos_yes" class="yn-btn">Yes</label>
-                  <input type="radio" id="attached_photos_no" name="Attached Photos?" value="No" required>
-                  <label for="attached_photos_no" class="yn-btn">No</label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <label for="drivers_license">Driver's License Photo <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--text-muted)">(Optional)</span></label>
-          <input id="drivers_license" name="Driver's License Photo" type="file" accept="image/*">
-
-          <label for="auto_insurance_card">Auto Insurance Card Photo <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--text-muted)">(Optional)</span></label>
-          <input id="auto_insurance_card" name="Auto Insurance Card Photo" type="file" accept="image/*">
-
-          <div class="form-actions">
-            <div class="left-actions">
-              <button type="button" id="backBtn3" class="alt-btn">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Back
-              </button>
-            </div>
-            <div class="right-actions">
               <button type="submit" class="submit-btn">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 Submit Secure Referral
@@ -488,7 +432,7 @@
             </div>
           </div>
 
-        </div><!-- /step3 -->
+        </div><!-- /step2 -->
 
         <div id="submissionStatus" class="submission-status" style="display:none;"></div>
 
@@ -591,33 +535,24 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && formModal.
 /* ── Step Navigation ────────────────────────────────── */
 const step1     = document.getElementById('step1');
 const step2     = document.getElementById('step2');
-const step3     = document.getElementById('step3');
 const stepPill1 = document.getElementById('stepPill1');
 const stepPill2 = document.getElementById('stepPill2');
-const stepPill3 = document.getElementById('stepPill3');
 const nextBtn1  = document.getElementById('nextBtn1');
-const nextBtn2  = document.getElementById('nextBtn2');
 const backBtn2  = document.getElementById('backBtn2');
-const backBtn3  = document.getElementById('backBtn3');
 const referralForm      = document.getElementById('referralForm');
 const submissionIdInput = document.getElementById('submission_id');
 const submissionStatus  = document.getElementById('submissionStatus');
 
 function setActiveStep(n) {
-  [step1, step2, step3].forEach(s => s.classList.remove('active'));
-  [stepPill1, stepPill2, stepPill3].forEach(p => p.classList.remove('active', 'completed'));
+  [step1, step2].forEach(s => s.classList.remove('active'));
+  [stepPill1, stepPill2].forEach(p => p.classList.remove('active', 'completed'));
   if (n === 1) {
     step1.classList.add('active');
     stepPill1.classList.add('active');
-  } else if (n === 2) {
+  } else {
     step2.classList.add('active');
     stepPill1.classList.add('completed');
     stepPill2.classList.add('active');
-  } else {
-    step3.classList.add('active');
-    stepPill1.classList.add('completed');
-    stepPill2.classList.add('completed');
-    stepPill3.classList.add('active');
   }
   // scroll modal to top
   document.querySelector('.modal-dialog').scrollTo({ top: 0, behavior: 'smooth' });
@@ -632,9 +567,7 @@ function validateStep(container) {
 }
 
 nextBtn1.addEventListener('click', () => { if (validateStep(step1)) setActiveStep(2); });
-nextBtn2.addEventListener('click', () => { if (validateStep(step2)) setActiveStep(3); });
 backBtn2.addEventListener('click', () => setActiveStep(1));
-backBtn3.addEventListener('click', () => setActiveStep(2));
 
 /* ── Submission ─────────────────────────────────────── */
 function generateSubmissionId() {
@@ -644,20 +577,21 @@ function getRadioValue(name) {
   const checked = document.querySelector(`input[name="${CSS.escape(name)}"]:checked`);
   return checked ? checked.value : "";
 }
+function getValue(id) {
+  const el = document.getElementById(id);
+  return el ? el.value : "";
+}
 function buildSheetPayload() {
-  const govId    = document.getElementById('drivers_license');
-  const autoCard = document.getElementById('auto_insurance_card');
   return {
     submissionId:           submissionIdInput.value,
-    lawFirmProviderName:    document.getElementById('law_firm_provider_name').value,
-    caseManagerParalegal:   document.getElementById('case_manager_paralegal').value,
-    patientFullName:        document.getElementById('patient_full_name').value,
-    patientFullAddress:     document.getElementById('patient_full_address').value,
-    dateOfBirth:            document.getElementById('date_of_birth').value,
-    dateOfIncident:         document.getElementById('date_of_incident').value,
-    phoneNumber:            document.getElementById('phone_number').value,
-    workersCompCase:        document.getElementById('workers_comp_case').value,
-    pipDetails:             document.getElementById('pip_details').value,
+    lawFirmProviderName:    getValue('law_firm_provider_name'),
+    caseManagerParalegal:   getValue('case_manager_paralegal'),
+    patientFullName:        getValue('patient_full_name'),
+    patientFullAddress:     getValue('patient_full_address'),
+    dateOfBirth:            getValue('date_of_birth'),
+    dateOfIncident:         getValue('date_of_incident'),
+    phoneNumber:            getValue('phone_number'),
+    notes:                  getValue('notes'),
     vcMeaning:              getRadioValue('Verbal Communication - Takes longer to understand meaning'),
     vcWords:                getRadioValue('Verbal Communication - Takes longer to find words'),
     vcSay:                  getRadioValue('Verbal Communication - Takes longer to say words'),
@@ -669,38 +603,14 @@ function buildSheetPayload() {
     wooziness:              getRadioValue('Wooziness'),
     lightheadedness:        getRadioValue('Lightheadedness'),
     emotional:              getRadioValue('Emotional'),
-    nervousness:            getRadioValue('Nervousness'),
-    attachedPhotos:         getRadioValue('Attached Photos?'),
-    governmentIdUploaded:   govId && govId.files.length > 0 ? "Yes" : "No",
-    autoInsuranceUploaded:  autoCard.files.length > 0 ? "Yes" : "No"
+    nervousness:            getRadioValue('Nervousness')
   };
 }
 
 referralForm.addEventListener('submit', async function(e) {
   e.preventDefault();
-  if (!validateStep(step3)) return;
+  if (!validateStep(step2)) return;
 
-  const govId    = document.getElementById('drivers_license');
-  const autoCard = document.getElementById('auto_insurance_card');
-  const attachedPhotosAnswer = getRadioValue('Attached Photos?');
-
-  const govSize   = govId.files[0]    ? govId.files[0].size    : 0;
-  const autoSize  = autoCard.files[0] ? autoCard.files[0].size : 0;
-  const totalSize = govSize + autoSize;
-  const maxSize   = 9 * 1024 * 1024;
-
-  if (totalSize > maxSize) {
-    alert('The total size of the uploaded photos must not exceed 9 MB.');
-    return;
-  }
-  if (attachedPhotosAnswer === "Yes" && govId.files.length === 0 && autoCard.files.length === 0) {
-    alert('You selected "Yes" for attached photos, but no files were uploaded.');
-    return;
-  }
-  if (attachedPhotosAnswer === "No" && (govId.files.length > 0 || autoCard.files.length > 0)) {
-    alert('You selected "No" for attached photos, but files were uploaded. Please update your answer or remove the files.');
-    return;
-  }
   if (!submissionIdInput.value) {
     submissionIdInput.value = generateSubmissionId();
   }
@@ -718,7 +628,7 @@ referralForm.addEventListener('submit', async function(e) {
     });
     const result = await response.json();
     if (!result.success) throw new Error(result.error || 'Google Sheets submission failed.');
-    submissionStatus.textContent = 'Details saved. Sending attachments…';
+    submissionStatus.textContent = 'Details saved. Submitting referral…';
     referralForm.submit();
   } catch (error) {
     console.error(error);
