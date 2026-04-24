@@ -143,6 +143,7 @@
       id="referralForm"
       action="https://formsubmit.co/admin@ligonrazon.solutions"
       method="POST"
+      enctype="multipart/form-data"
     >
       <input type="hidden" name="_subject" value="New CTG Referral Submission">
       <input type="hidden" name="_captcha" value="false">
@@ -425,9 +426,9 @@
               </button>
             </div>
             <div class="right-actions">
-              <button type="submit" class="submit-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <button type="button" id="nextBtn2" class="submit-btn">
                 Submit Secure Referral
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </button>
             </div>
           </div>
@@ -538,6 +539,7 @@ const step2     = document.getElementById('step2');
 const stepPill1 = document.getElementById('stepPill1');
 const stepPill2 = document.getElementById('stepPill2');
 const nextBtn1  = document.getElementById('nextBtn1');
+const nextBtn2  = document.getElementById('nextBtn2');
 const backBtn2  = document.getElementById('backBtn2');
 const referralForm      = document.getElementById('referralForm');
 const submissionIdInput = document.getElementById('submission_id');
@@ -546,6 +548,7 @@ const submissionStatus  = document.getElementById('submissionStatus');
 function setActiveStep(n) {
   [step1, step2].forEach(s => s.classList.remove('active'));
   [stepPill1, stepPill2].forEach(p => p.classList.remove('active', 'completed'));
+
   if (n === 1) {
     step1.classList.add('active');
     stepPill1.classList.add('active');
@@ -554,61 +557,92 @@ function setActiveStep(n) {
     stepPill1.classList.add('completed');
     stepPill2.classList.add('active');
   }
-  // scroll modal to top
-  document.querySelector('.modal-dialog').scrollTo({ top: 0, behavior: 'smooth' });
+
+  document.querySelector('.modal-dialog').scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 }
 
 function validateStep(container) {
-  const fields = container.querySelectorAll('input, select, textarea');
+  const fields = container.querySelectorAll('input, textarea, select');
   for (const f of fields) {
-    if (!f.checkValidity()) { f.reportValidity(); return false; }
+    if (!f.checkValidity()) {
+      f.reportValidity();
+      return false;
+    }
   }
   return true;
 }
 
-nextBtn1.addEventListener('click', () => { if (validateStep(step1)) setActiveStep(2); });
-backBtn2.addEventListener('click', () => setActiveStep(1));
+nextBtn1.addEventListener('click', () => {
+  if (validateStep(step1)) setActiveStep(2);
+});
+
+backBtn2.addEventListener('click', () => {
+  setActiveStep(1);
+});
+
+nextBtn2.addEventListener('click', () => {
+  if (validateStep(step2)) {
+    referralForm.requestSubmit();
+  }
+});
 
 /* ── Submission ─────────────────────────────────────── */
 function generateSubmissionId() {
   return "CTG-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
 }
+
 function getRadioValue(name) {
   const checked = document.querySelector(`input[name="${CSS.escape(name)}"]:checked`);
   return checked ? checked.value : "";
 }
-function getValue(id) {
-  const el = document.getElementById(id);
-  return el ? el.value : "";
-}
+
 function buildSheetPayload() {
   return {
-    submissionId:           submissionIdInput.value,
-    lawFirmProviderName:    getValue('law_firm_provider_name'),
-    caseManagerParalegal:   getValue('case_manager_paralegal'),
-    patientFullName:        getValue('patient_full_name'),
-    patientFullAddress:     getValue('patient_full_address'),
-    dateOfBirth:            getValue('date_of_birth'),
-    dateOfIncident:         getValue('date_of_incident'),
-    phoneNumber:            getValue('phone_number'),
-    notes:                  getValue('notes'),
-    vcMeaning:              getRadioValue('Verbal Communication - Takes longer to understand meaning'),
-    vcWords:                getRadioValue('Verbal Communication - Takes longer to find words'),
-    vcSay:                  getRadioValue('Verbal Communication - Takes longer to say words'),
-    lightSensitivity:       getRadioValue('Light Sensitivity'),
-    sleepLess:              getRadioValue('Sleep Difficulty - Sleeping less than usual'),
-    sleepFall:              getRadioValue('Sleep Difficulty - Difficulty falling asleep'),
-    fearOfTravel:           getRadioValue('Fear of Travel'),
-    headaches:              getRadioValue('Headaches'),
-    wooziness:              getRadioValue('Wooziness'),
-    lightheadedness:        getRadioValue('Lightheadedness'),
-    emotional:              getRadioValue('Emotional'),
-    nervousness:            getRadioValue('Nervousness')
+    submissionId: submissionIdInput.value,
+    lawFirmProviderName: document.getElementById('law_firm_provider_name').value,
+    caseManagerParalegal: document.getElementById('case_manager_paralegal').value,
+    patientFullName: document.getElementById('patient_full_name').value,
+    patientFullAddress: document.getElementById('patient_full_address').value,
+    dateOfBirth: document.getElementById('date_of_birth').value,
+    dateOfIncident: document.getElementById('date_of_incident').value,
+    phoneNumber: document.getElementById('phone_number').value,
+    notes: document.getElementById('notes').value || '',
+    vcMeaning: getRadioValue('Verbal Communication - Takes longer to understand meaning'),
+    vcWords: getRadioValue('Verbal Communication - Takes longer to find words'),
+    vcSay: getRadioValue('Verbal Communication - Takes longer to say words'),
+    lightSensitivity: getRadioValue('Light Sensitivity'),
+    sleepLess: getRadioValue('Sleep Difficulty - Sleeping less than usual'),
+    sleepFall: getRadioValue('Sleep Difficulty - Difficulty falling asleep'),
+    fearOfTravel: getRadioValue('Fear of Travel'),
+    headaches: getRadioValue('Headaches'),
+    wooziness: getRadioValue('Wooziness'),
+    lightheadedness: getRadioValue('Lightheadedness'),
+    emotional: getRadioValue('Emotional'),
+    nervousness: getRadioValue('Nervousness')
   };
+}
+
+async function sendToSheet(payload) {
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(payload)
+    });
+  } catch (error) {
+    console.error('Apps Script submit failed:', error);
+  }
 }
 
 referralForm.addEventListener('submit', async function(e) {
   e.preventDefault();
+
   if (!validateStep(step2)) return;
 
   if (!submissionIdInput.value) {
@@ -616,25 +650,12 @@ referralForm.addEventListener('submit', async function(e) {
   }
 
   submissionStatus.style.display = 'block';
-  submissionStatus.textContent   = 'Submitting your referral…';
-  submissionStatus.className     = 'submission-status is-loading';
+  submissionStatus.textContent = 'Submitting your referral...';
+  submissionStatus.className = 'submission-status is-loading';
 
-  try {
-    const payload  = buildSheetPayload();
-    const response = await fetch(APPS_SCRIPT_URL, {
-      method:  'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body:    JSON.stringify(payload)
-    });
-    const result = await response.json();
-    if (!result.success) throw new Error(result.error || 'Google Sheets submission failed.');
-    submissionStatus.textContent = 'Details saved. Submitting referral…';
-    referralForm.submit();
-  } catch (error) {
-    console.error(error);
-    submissionStatus.textContent = 'There was a problem saving the form. Please try again.';
-    submissionStatus.className   = 'submission-status is-error';
-  }
+  const payload = buildSheetPayload();
+  await sendToSheet(payload);
+  referralForm.submit();
 });
 </script>
 
