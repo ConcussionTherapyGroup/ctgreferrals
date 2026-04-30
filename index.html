@@ -171,8 +171,16 @@
             Patient Information
           </div>
 
-          <label for="patient_full_name">Patient's Full Name</label>
-          <input id="patient_full_name" name="Patient Full Name" type="text" placeholder="Full legal name" required>
+          <div class="grid2">
+            <div>
+              <label for="patient_first_name">Patient's First Name</label>
+              <input id="patient_first_name" name="Patient First Name" type="text" placeholder="First name" required>
+            </div>
+            <div>
+              <label for="patient_last_name">Patient's Last Name</label>
+              <input id="patient_last_name" name="Patient Last Name" type="text" placeholder="Last name" required>
+            </div>
+          </div>
 
           <label for="patient_full_address">Patient's Full Address</label>
           <input id="patient_full_address" name="Patient Full Address" type="text" placeholder="Street, City, State, ZIP" required>
@@ -447,7 +455,7 @@
 <!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
 <script>
 /* ── Google Apps Script URL ─────────────────────────── */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxZIA-p1ildH3FBEvtzJyLDnFqOlr9NNIztrc6M_oCJWsXb8C4vhr-uYoxcEpNRutbYdA/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbywwTFk1w47uU92CLXi6jZfp8ZX-vIzq2Ld_uPPLdMIbrecMdSSu40nS3ljuw0tkxphsQ/exec";
 
 /* ── Neural Network Canvas ──────────────────────────── */
 const hero   = document.querySelector('.hero');
@@ -604,7 +612,8 @@ function buildSheetPayload() {
     submissionId: submissionIdInput.value,
     lawFirmProviderName: document.getElementById('law_firm_provider_name').value,
     caseManagerParalegal: document.getElementById('case_manager_paralegal').value,
-    patientFullName: document.getElementById('patient_full_name').value,
+    patientFirstName: document.getElementById('patient_first_name').value,
+    patientLastName: document.getElementById('patient_last_name').value,
     patientFullAddress: document.getElementById('patient_full_address').value,
     dateOfBirth: document.getElementById('date_of_birth').value,
     dateOfIncident: document.getElementById('date_of_incident').value,
