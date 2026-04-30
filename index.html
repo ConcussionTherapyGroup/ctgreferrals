@@ -1,95 +1,93 @@
-/* ── Scroll Reveal ──────────────────────────────────── */
-const revealEls = document.querySelectorAll('.reveal');
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
-}, { threshold: .12 });
-revealEls.forEach(el => revealObs.observe(el));
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTG Referral Portal | The Concussion Therapy Group</title>
+  <meta name="description" content="Secure, 24-hour concussion referral portal for law firms and medical providers. Submit patient referrals to The Concussion Therapy Group.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-/* ── Modal ──────────────────────────────────────────── */
-const formModal    = document.getElementById('formModal');
-const pageShell    = document.getElementById('pageShell');
-const closeModalBtn   = document.getElementById('closeModalBtn');
-const cancelModalBtn1 = document.getElementById('cancelModalBtn1');
+<div class="page-shell" id="pageShell">
 
-function openModal() {
-  formModal.classList.add('active');
-  pageShell.classList.add('blurred');
-  document.body.classList.add('modal-open');
+<header>
+  <div class="logo-wrap">
+    <span class="logo-main">CTG</span>
+    <div class="logo-divider"></div>
+    <div class="logo-text-wrap">
+      <div class="logo-line-accent">The Concussion</div>
+      <div class="logo-line">Therapy Group</div>
+    </div>
+  </div>
+  <button type="button" class="btn open-form-btn">Submit Referral</button>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Concussion <br>Referrals Made <em>Simple.</em></h1>
+    <p class="hero-sub">The premier secure referral portal for Law Firms and Providers</p>
+    <button class="btn-primary open-form-btn">Submit a Referral</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-main">CTG</span>
+      <span class="tagline">The Concussion Therapy Group</span>
+      <p>Professional concussion referral solutions with fast, secure, and patient-focused intake services.</p>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="formModal">
+  <div class="modal-dialog">
+
+    <div class="modal-header">
+      <h2>Submit a Patient Referral</h2>
+      <button id="closeModalBtn">×</button>
+    </div>
+
+    <form id="referralForm">
+
+      <!-- PATIENT INFO -->
+      <label for="patient_first_name">Patient's First Name</label>
+      <input id="patient_first_name" name="Patient First Name" type="text" required>
+
+      <label for="patient_last_name">Patient's Last Name</label>
+      <input id="patient_last_name" name="Patient Last Name" type="text" required>
+
+      <label for="patient_full_address">Patient's Full Address</label>
+      <input id="patient_full_address" name="Patient Full Address" type="text" required>
+
+      <button type="submit">Submit</button>
+
+    </form>
+
+  </div>
+</div>
+
+<script>
+const referralForm = document.getElementById('referralForm');
+
+function buildSheetPayload() {
+  return {
+    patientFirstName: document.getElementById('patient_first_name').value,
+    patientLastName: document.getElementById('patient_last_name').value,
+    patientFullAddress: document.getElementById('patient_full_address').value
+  };
 }
-function closeModal() {
-  formModal.classList.remove('active');
-  pageShell.classList.remove('blurred');
-  document.body.classList.remove('modal-open');
-}
 
-document.querySelectorAll('.open-form-btn').forEach(b => b.addEventListener('click', openModal));
-closeModalBtn.addEventListener('click', closeModal);
-cancelModalBtn1.addEventListener('click', closeModal);
-formModal.addEventListener('click', e => { if (e.target === formModal) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && formModal.classList.contains('active')) closeModal(); });
-
-/* ── Step Navigation ────────────────────────────────── */
-const step1     = document.getElementById('step1');
-const step2     = document.getElementById('step2');
-const stepPill1 = document.getElementById('stepPill1');
-const stepPill2 = document.getElementById('stepPill2');
-const nextBtn1  = document.getElementById('nextBtn1');
-const nextBtn2  = document.getElementById('nextBtn2');
-const backBtn2  = document.getElementById('backBtn2');
-const referralForm      = document.getElementById('referralForm');
-const submissionIdInput = document.getElementById('submission_id');
-const submissionStatus  = document.getElementById('submissionStatus');
-
-function setActiveStep(n) {
-  [step1, step2].forEach(s => s.classList.remove('active'));
-  [stepPill1, stepPill2].forEach(p => p.classList.remove('active', 'completed'));
-
-  if (n === 1) {
-    step1.classList.add('active');
-    stepPill1.classList.add('active');
-  } else {
-    step2.classList.add('active');
-    stepPill1.classList.add('completed');
-    stepPill2.classList.add('active');
-  }
-
-  document.querySelector('.modal-dialog').scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}
-
-function validateStep(container) {
-  const fields = container.querySelectorAll('input, textarea, select');
-  for (const f of fields) {
-    if (!f.checkValidity()) {
-      f.reportValidity();
-      return false;
-    }
-  }
-  return true;
-}
-
-nextBtn1.addEventListener('click', () => {
-  if (validateStep(step1)) setActiveStep(2);
+referralForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const data = buildSheetPayload();
+  console.log("Submitting:", data);
 });
+</script>
 
-backBtn2.addEventListener('click', () => {
-  setActiveStep(1);
-});
-
-nextBtn2.addEventListener('click', () => {
-  if (validateStep(step2)) {
-    referralForm.requestSubmit();
-  }
-});
-
-/* ── Submission ─────────────────────────────────────── */
-function generateSubmissionId() {
-  return "CTG-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
-}
-
-function getRadioValue(name) {
-  const checked = document.querySelector(input[name="${CSS.escape(name)}"]:checked);
-  return checked ? checked.value : "";
-}
+</body>
+</html>
