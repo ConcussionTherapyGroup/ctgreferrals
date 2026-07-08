@@ -202,6 +202,10 @@
               <label for="phone_number">Phone Number</label>
               <input id="phone_number" name="Phone Number" type="tel" placeholder="(000) 000-0000" required>
             </div>
+            <div>
+              <label for="email_address">Email Address</label>
+              <input id="email_address" name="Email Address" type="email" placeholder="name@example.com" required>
+            </div>
           </div>
 
           <label for="notes">Notes <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--text-muted)">(if applicable)</span></label>
@@ -619,6 +623,7 @@ function buildSheetPayload() {
     dateOfBirth: document.getElementById('date_of_birth').value,
     dateOfIncident: document.getElementById('date_of_incident').value,
     phoneNumber: document.getElementById('phone_number').value,
+    emailAddress: document.getElementById('email_address').value,
     notes: document.getElementById('notes').value || '',
     vcMeaning: getRadioValue('Verbal Communication - Takes longer to understand meaning'),
     vcWords: getRadioValue('Verbal Communication - Takes longer to find words'),
