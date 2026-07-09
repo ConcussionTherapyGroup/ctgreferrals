@@ -456,6 +456,23 @@
   </div><!-- /modal-dialog -->
 </div><!-- /modal-overlay -->
 
+<!-- ═══════════════════════ DOB AGE ALERT MODAL ═══════════════════════ -->
+<div class="modal-overlay alert-modal-overlay" id="dobAgeModal">
+  <div class="modal-dialog alert-modal-dialog" role="alertdialog" aria-modal="true" aria-labelledby="dobAgeModalTitle" aria-describedby="dobAgeModalMessage">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <h2 id="dobAgeModalTitle">Referral Cannot Proceed</h2>
+      </div>
+    </div>
+    <div class="alert-modal-body">
+      <p id="dobAgeModalMessage">We do not accept patients aged 12 years and younger. Please refer them to a pediatric facility.</p>
+      <div class="alert-modal-actions">
+        <button type="button" id="dobAgeModalOkBtn" class="submit-btn">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
 <script>
@@ -589,8 +606,67 @@ function validateStep(container) {
 }
 
 nextBtn1.addEventListener('click', () => {
+  if (isPatientTooYoung()) {
+    openDobAgeModal();
+    return;
+  }
   if (validateStep(step1)) setActiveStep(2);
 });
+
+/* ── Patient age validation (Date of Birth) ── */
+const dateOfBirthInput = document.getElementById('date_of_birth');
+const dobAgeModal = document.getElementById('dobAgeModal');
+const dobAgeModalOkBtn = document.getElementById('dobAgeModalOkBtn');
+
+function getEasternTimeToday() {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).formatToParts(new Date());
+  const map = {};
+  parts.forEach(p => { map[p.type] = p.value; });
+  return new Date(parseInt(map.year, 10), parseInt(map.month, 10) - 1, parseInt(map.day, 10));
+}
+
+function calculateAge(birthDateStr) {
+  if (!birthDateStr) return null;
+  const parts = birthDateStr.split('-');
+  if (parts.length !== 3) return null;
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const day = parseInt(parts[2], 10);
+  const birthDate = new Date(year, month, day);
+  if (isNaN(birthDate.getTime())) return null;
+  const today = getEasternTimeToday();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+function isPatientTooYoung() {
+  const age = calculateAge(dateOfBirthInput.value);
+  return age !== null && age <= 12;
+}
+
+function updateDobValidation() {
+  dateOfBirthInput.classList.toggle('input-error', isPatientTooYoung());
+}
+
+function openDobAgeModal() {
+  dobAgeModal.classList.add('active');
+}
+function closeDobAgeModal() {
+  dobAgeModal.classList.remove('active');
+}
+
+dateOfBirthInput.addEventListener('change', updateDobValidation);
+dateOfBirthInput.addEventListener('input', updateDobValidation);
+dobAgeModalOkBtn.addEventListener('click', closeDobAgeModal);
 
 backBtn2.addEventListener('click', () => {
   setActiveStep(1);
