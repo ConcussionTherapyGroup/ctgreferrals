@@ -1032,6 +1032,36 @@ select { cursor: pointer; }
 }
 .upload-note-box strong { color: var(--text-head); }
 
+/* Patient age validation error (Date of Birth) */
+#date_of_birth.input-error,
+#date_of_birth.input-error:focus {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(192,57,43,.12);
+}
+
+/* DOB age alert modal */
+.alert-modal-overlay { z-index: 10000; }
+
+.alert-modal-dialog {
+  max-width: 440px;
+  max-height: none;
+}
+
+.alert-modal-body {
+  padding: 24px 28px 28px;
+}
+.alert-modal-body p {
+  color: var(--text-body);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.alert-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
 /* Form actions */
 .form-actions {
   display: flex;
