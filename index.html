@@ -672,8 +672,13 @@ backBtn2.addEventListener('click', () => {
   setActiveStep(1);
 });
 
+let isSubmittingReferral = false;
+
 nextBtn2.addEventListener('click', () => {
+  if (isSubmittingReferral) return; // block duplicate clicks/submissions
   if (validateStep(step2)) {
+    isSubmittingReferral = true;
+    nextBtn2.disabled = true;
     referralForm.requestSubmit();
   }
 });
@@ -734,7 +739,12 @@ async function sendToSheet(payload) {
 referralForm.addEventListener('submit', async function(e) {
   e.preventDefault();
 
-  if (!validateStep(step2)) return;
+  if (!validateStep(step2)) {
+    // Validation failed — re-enable the button so the user can fix fields and retry.
+    isSubmittingReferral = false;
+    nextBtn2.disabled = false;
+    return;
+  }
 
   if (!submissionIdInput.value) {
     submissionIdInput.value = generateSubmissionId();
@@ -744,9 +754,18 @@ referralForm.addEventListener('submit', async function(e) {
   submissionStatus.textContent = 'Submitting your referral...';
   submissionStatus.className = 'submission-status is-loading';
 
-  const payload = buildSheetPayload();
-  await sendToSheet(payload);
-  referralForm.submit();
+  try {
+    const payload = buildSheetPayload();
+    await sendToSheet(payload);
+    // Only proceed to the Thank You page after the referral has been successfully submitted.
+    referralForm.submit();
+  } catch (error) {
+    console.error('Referral submission failed:', error);
+    submissionStatus.textContent = 'Something went wrong submitting your referral. Please try again.';
+    submissionStatus.className = 'submission-status is-error';
+    isSubmittingReferral = false;
+    nextBtn2.disabled = false;
+  }
 });
 </script>
 
