@@ -1133,6 +1133,7 @@ select { cursor: pointer; }
 }
 .submission-status.is-loading { background: var(--info-bg); color: var(--blue); border: 1px solid rgba(46,126,240,.2); }
 .submission-status.is-error { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(192,57,43,.2); }
+.submission-status.is-success { background: #ECFDF5; color: #0F766E; border: 1px solid rgba(20,184,166,.2); }
 
 /* ══════════════════════════════════════
    THANK YOU PAGE
